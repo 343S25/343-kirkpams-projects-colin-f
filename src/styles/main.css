@@ -1,0 +1,58 @@
+header {
+    background-color: #0050EF;
+    padding: 60px 0;
+    color: #FFFFFF;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 64px;
+    margin-bottom: 35px;
+    font-family: Helvetica, sans-serif;
+  }
+  
+  .hero-subtitle {
+    font-size: 35px;
+    color: #F9F7ED;
+    font-family: Helvetica, sans-serif;
+  }
+  
+
+body {
+    font-family: 'Helvetica', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Recipe Grid (Desktop) */
+  .recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+  
+  .recipe-card {
+    padding: 30px;
+    border-radius: 10px;
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 48px !important;
+    }
+  
+    .recipe-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .favorites-desktop {
+      display: none;
+    }
+  }
