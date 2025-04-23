@@ -4,14 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MyMealPlanner</title>
-  <link rel="stylesheet" href="styles/main.css"> <!-- Link to external CSS -->
+  <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-  <header>
-    <div class="container">
+  <!-- Header Section -->
+  <header class="app-header">
+    <div class="header-left">
       <h1>MyMealPlanner</h1>
-      <p class="hero-subtitle">Build a meal plan, find thousands of recipes and save your favorites</p>
+      <p class="app-description">Plan your meals, discover recipes, and save favorites</p>
+    </div>
+    <div class="header-right">
+      <form id="search-form" class="search-box">
+        <input type="text" placeholder="Search recipes...">
+        <button type="submit" class="search-btn">🔍</button>
+      </form>
     </div>
   </header>
+
+  <!-- Navigation Buttons -->
+  <nav class="app-nav">
+    <button type="button" class="nav-btn active" id="home-btn">Home</button>
+    <button type="button" class="nav-btn" id="favorites-btn">Favorites</button>
+    <button type="button" class="nav-btn" id="mealplan-btn">Meal Plan</button>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="app-content">
+    <!-- Top Favorites Grid -->
+    <section class="top-favorites">
+      <h2>Top Favorites</h2>
+      <div class="favorites-grid">
+        <!-- Will be populated by JavaScript -->
+        <div class="favorite-recipe">Recipe 1</div>
+        <div class="favorite-recipe">Recipe 2</div>
+        <div class="favorite-recipe">Recipe 3</div>
+        <div class="favorite-recipe">Recipe 4</div>
+      </div>
+    </section>
+
+    <!-- Favorites List -->
+    <aside class="favorites-list">
+      <h2>All Favorites</h2>
+      <ul class="favorites-ul">
+        <!-- Will be populated by JavaScript -->
+        <li>Favorite Recipe 1</li>
+        <li>Favorite Recipe 2</li>
+        <li>Favorite Recipe 3</li>
+      </ul>
+      <div class="favorites-actions">
+        <button type="button" class="add-btn">+ Add Recipe</button>
+        <button type="button" class="remove-btn">− Remove Selected</button>
+      </div>
+    </aside>
+  </main>
+
+  <script src="scripts/main.js"></script>
 </body>
 </html>

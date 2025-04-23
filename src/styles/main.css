@@ -1,58 +1,201 @@
-header {
-    background-color: #0050EF;
-    padding: 60px 0;
-    color: #FFFFFF;
+/* Base Styles */
+body {
+  font-family: 'Helvetica', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+/* Header Layout */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 5%;
+  background-color: #0050EF;
+  color: white;
+}
+
+.header-left h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.app-description {
+  margin: 5px 0 0;
+  font-size: 1.1rem;
+  color: #F9F7ED;
+}
+
+.search-box {
+  display: flex;
+}
+
+.search-box input {
+  padding: 10px;
+  border: none;
+  border-radius: 4px 0 0 4px;
+  width: 250px;
+}
+
+.search-box button {
+  padding: 10px 15px;
+  border: none;
+  background: #F9F7ED;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+/* Navigation */
+.app-nav {
+  display: flex;
+  justify-content: center;
+  padding: 15px 0;
+  background: #BAC8D3;
+}
+
+.nav-btn {
+  padding: 10px 30px;
+  margin: 0 10px;
+  border: none;
+  background: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.nav-btn.active {
+  font-weight: bold;
+  border-bottom: 3px solid #0050EF;
+}
+
+/* Main Content */
+.app-content {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  gap: 20px;
+  padding: 20px 5%;
+}
+
+/* Favorites Grid */
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.favorite-recipe {
+  position: relative;
+  height: 200px;
+  background: #F9F7ED;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.favorite-recipe img {
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+}
+
+.favorite-recipe h3 {
+  margin: 10px;
+  font-size: 1em;
+}
+
+.nutrition-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 5px 10px;
+  background: rgba(255,255,255,0.9);
+  font-size: 0.7em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.empty-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-style: italic;
+  border: 2px dashed #ddd;
+}
+
+/* Favorites List */
+.favorites-ul {
+  list-style: none;
+  padding: 0;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.favorites-ul li {
+  padding: 12px 15px;
+  margin: 5px 0;
+  background: #F9F7ED;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.favorites-ul li.selected {
+  background: #0050EF;
+  color: white;
+}
+
+.favorites-ul li.selected .recipe-meta {
+  color: #ddd;
+}
+
+.recipe-meta {
+  font-size: 0.8em;
+  color: #666;
+}
+
+/* Action Buttons */
+.favorites-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.add-btn, .remove-btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-btn {
+  background: #4CAF50;
+  color: white;
+}
+
+.remove-btn {
+  background: #f44336;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .app-header {
+    flex-direction: column;
     text-align: center;
   }
   
-  h1 {
-    font-size: 64px;
-    margin-bottom: 35px;
-    font-family: Helvetica, sans-serif;
+  .header-right {
+    margin-top: 20px;
+    width: 100%;
   }
   
-  .hero-subtitle {
-    font-size: 35px;
-    color: #F9F7ED;
-    font-family: Helvetica, sans-serif;
+  .search-box input {
+    width: 100%;
   }
-  
-
-body {
-    font-family: 'Helvetica', sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  /* Recipe Grid (Desktop) */
-  .recipe-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-  }
-  
-  .recipe-card {
-    padding: 30px;
-    border-radius: 10px;
-  }
-  
-  /* Mobile Responsiveness */
-  @media (max-width: 768px) {
-    header h1 {
-      font-size: 48px !important;
-    }
-  
-    .recipe-grid {
-      grid-template-columns: 1fr;
-    }
-  
-    .favorites-desktop {
-      display: none;
-    }
-  }
+}
