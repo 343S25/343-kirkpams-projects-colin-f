@@ -15,7 +15,13 @@ const elements = {
   removeBtn: document.querySelector('.remove-btn'),
   proteinTotal: document.getElementById('protein-total'),
   carbsTotal: document.getElementById('carbs-total'),
-  fatTotal: document.getElementById('fat-total')
+  fatTotal: document.getElementById('fat-total'),
+  removeMealBtn: document.querySelector('.remove-meal-btn'),
+  recipeSearchBar: document.getElementById('recipe-search-bar'),
+  exportBtn: document.querySelector('.export-btn'),
+  importBtn: document.querySelector('.import-btn'),
+  importFile: document.getElementById('import-file'),
+  clearDataBtn: document.querySelector('.clear-data-btn')
 };
 
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -29,7 +35,6 @@ function init() {
   loadFavorites();
   setupEventListeners();
   updateTrackerDisplay();
-  // Initialize meals grid with empty state
   elements.mealsGrid.innerHTML = '<div class="empty-slot">No meals added today</div>';
 }
 
@@ -94,6 +99,83 @@ function setupEventListeners() {
   });
 
   elements.removeBtn.addEventListener('click', removeSelected);
+  elements.removeMealBtn.addEventListener('click', removeLastMeal);
+  
+  // New event listeners for export/import
+  elements.exportBtn.addEventListener('click', exportData);
+  elements.importBtn.addEventListener('click', () => elements.importFile.click());
+  elements.importFile.addEventListener('change', (e) => {
+    if (e.target.files.length) {
+      importData(e.target.files[0]);
+      e.target.value = '';
+    }
+  });
+  elements.clearDataBtn.addEventListener('click', clearAllData);
+}
+
+function exportData() {
+  const data = {
+    favorites: favorites,
+    dailyTotals: dailyTotals,
+    version: 1,
+    exportedAt: new Date().toISOString()
+  };
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `meal-planner-data-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importData(file) {
+  const reader = new FileReader();
+  
+  reader.onload = (event) => {
+    try {
+      const data = JSON.parse(event.target.result);
+      
+      if (!data.favorites || !data.dailyTotals) {
+        throw new Error('Invalid data format');
+      }
+      
+      if (confirm('Importing data will overwrite your current favorites and daily totals. Continue?')) {
+        favorites = data.favorites;
+        dailyTotals = data.dailyTotals;
+        
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        loadFavorites();
+        updateTrackerDisplay();
+        elements.mealsGrid.innerHTML = '<div class="empty-slot">No meals added today</div>';
+        
+        alert('Data imported successfully!');
+      }
+    } catch (error) {
+      alert(`Error importing data: ${error.message}`);
+    }
+  };
+  
+  reader.onerror = () => {
+    alert('Error reading file');
+  };
+  
+  reader.readAsText(file);
+}
+
+function clearAllData() {
+  if (confirm('This will permanently delete all your favorites and reset daily totals. Continue?')) {
+    favorites = [];
+    dailyTotals = { protein: 0, carbs: 0, fat: 0 };
+    localStorage.removeItem('favorites');
+    loadFavorites();
+    updateTrackerDisplay();
+    elements.mealsGrid.innerHTML = '<div class="empty-slot">No meals added today</div>';
+    alert('All data has been cleared.');
+  }
 }
 
 function loadFavorites() {
@@ -153,6 +235,9 @@ function addMealToGrid(recipe, nutrition) {
 
   const mealElement = document.createElement('div');
   mealElement.className = 'favorite-recipe';
+  mealElement.dataset.protein = nutrition.protein;
+  mealElement.dataset.carbs = nutrition.carbs;
+  mealElement.dataset.fat = nutrition.fat;
   mealElement.innerHTML = `
     <img src="${recipe.image}" alt="${recipe.title}">
     <h3>${recipe.title}</h3>
@@ -166,6 +251,9 @@ function addMealToGrid(recipe, nutrition) {
     </div>
   `;
   elements.mealsGrid.appendChild(mealElement);
+  if (elements.mealsGrid.querySelectorAll('.favorite-recipe').length > 2) {
+    elements.recipeSearchBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 }
 
 function addFavoriteToGrid(recipe) {
@@ -184,6 +272,33 @@ function addFavoriteToGrid(recipe) {
     </div>
   `;
   elements.favoritesGrid.appendChild(gridItem);
+}
+
+function removeLastMeal() {
+  const meals = elements.mealsGrid.querySelectorAll('.favorite-recipe');
+  if (meals.length === 0) {
+    alert('No meals to remove');
+    return;
+  }
+
+  const lastMeal = meals[meals.length - 1];
+  const protein = parseInt(lastMeal.querySelector('.protein').textContent.match(/\d+/)[0]);
+  const carbs = parseInt(lastMeal.querySelector('.carbs').textContent.match(/\d+/)[0]);
+  const fat = parseInt(lastMeal.querySelector('.fat').textContent.match(/\d+/)[0]);
+
+  // Update totals
+  dailyTotals.protein -= protein;
+  dailyTotals.carbs -= carbs;
+  dailyTotals.fat -= fat;
+  updateTrackerDisplay();
+
+  // Remove the meal
+  elements.mealsGrid.removeChild(lastMeal);
+
+  // Show empty state if no meals left
+  if (elements.mealsGrid.querySelectorAll('.favorite-recipe').length === 0) {
+    elements.mealsGrid.innerHTML = '<div class="empty-slot">No meals added today</div>';
+  }
 }
 
 async function performRecipeSearch(query) {
@@ -205,7 +320,7 @@ async function performRecipeSearch(query) {
           <h3>${recipe.title}</h3>
           <div class="recipe-actions">
             <button class="add-meal-btn" data-id="${recipe.id}">Add to Today</button>
-            <button class="add-favorite-btn" data-id="${recipe.id}">★ Add to Favorites</button>
+            <button class="add-favorite-btn" data-id="${recipe.id}">★</button>
           </div>
         </div>
       </div>

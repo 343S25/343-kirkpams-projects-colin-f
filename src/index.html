@@ -9,8 +9,8 @@
 <body>
   <header class="app-header">
     <div class="header-left">
-      <h1>MyMealPlanner</h1>
-      <p class="app-description">Save and organize your favorite recipes</p>
+      <h1>Meal Planner</h1>
+      <p class="app-description">Track meals and macros and save favorite recipes</p>
     </div>
   </header>
 
@@ -20,29 +20,48 @@
   </nav>
 
   <main class="app-content">
-    <section class="meals-eaten-today">
-      <h2>Meals Eaten Today</h2>
-      <div class="daily-tracker">
-        <div class="tracker-item">
-          <span class="tracker-label">Protein:</span>
-          <span class="tracker-value" id="protein-total">0g</span>
+    <div class="left-column">
+      <section class="meals-eaten-today">
+        <h2>Meals Eaten Today</h2>
+        <div class="daily-tracker">
+          <div class="tracker-item">
+            <span class="tracker-label">Protein:</span>
+            <span class="tracker-value" id="protein-total">0g</span>
+          </div>
+          <div class="tracker-item">
+            <span class="tracker-label">Carbs:</span>
+            <span class="tracker-value" id="carbs-total">0g</span>
+          </div>
+          <div class="tracker-item">
+            <span class="tracker-label">Fat:</span>
+            <span class="tracker-value" id="fat-total">0g</span>
+          </div>
         </div>
-        <div class="tracker-item">
-          <span class="tracker-label">Carbs:</span>
-          <span class="tracker-value" id="carbs-total">0g</span>
+        <div class="meals-grid">
+          <div class="empty-slot">No meals added today</div>
         </div>
-        <div class="tracker-item">
-          <span class="tracker-label">Fat:</span>
-          <span class="tracker-value" id="fat-total">0g</span>
+        <div class="meals-actions">
+          <button type="button" class="remove-meal-btn">− Remove Last Meal</button>
         </div>
-      </div>
-      <div class="meals-grid">
-        <div class="empty-slot">No meals added today</div>
-      </div>
-    </section>
-
+      </section>
+      <section id="recipe-search-bar">
+        <h2>Search Recipes</h2>
+        <form id="recipe-search-form">
+          <input type="text" id="recipe-query" placeholder="Search recipes..." required>
+          <button type="submit">Search</button>
+        </form>
+        <div id="recipe-results" class="recipe-grid"></div>
+        <div id="nutrition-error" style="display: none;"></div>
+      </section>
+    </div>
     <aside class="favorites-list">
       <h2>All Favorites</h2>
+      <div class="data-actions">
+        <button type="button" class="export-btn">Export Data</button>
+        <button type="button" class="import-btn">Import Data</button>
+        <input type="file" id="import-file" accept=".json" style="display: none;">
+        <button type="button" class="clear-data-btn">Clear All Data</button>
+      </div>
       <div class="favorites-grid">
         <div class="favorite-recipe empty-slot"><div>Empty Slot</div></div>
         <div class="favorite-recipe empty-slot"><div>Empty Slot</div></div>
@@ -56,15 +75,6 @@
         <button type="button" class="remove-btn">− Remove Selected</button>
       </div>
     </aside>
-    <section id="recipe-search-bar">
-      <h2>Search Recipes</h2>
-      <form id="recipe-search-form">
-        <input type="text" id="recipe-query" placeholder="Search recipes..." required>
-        <button type="submit">Search</button>
-      </form>
-      <div id="recipe-results" class="recipe-grid"></div>
-      <div id="nutrition-error" style="display: none;"></div>
-    </section>
   </main>
 
   <script src="scripts/main.js"></script>
