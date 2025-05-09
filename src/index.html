@@ -7,55 +7,64 @@
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-  <!-- Header Section -->
   <header class="app-header">
     <div class="header-left">
       <h1>MyMealPlanner</h1>
-      <p class="app-description">Plan your meals, discover recipes, and save favorites</p>
-    </div>
-    <div class="header-right">
-      <form id="search-form" class="search-box">
-        <input type="text" placeholder="Search recipes...">
-        <button type="submit" class="search-btn">🔍</button>
-      </form>
+      <p class="app-description">Save and organize your favorite recipes</p>
     </div>
   </header>
 
-  <!-- Navigation Buttons -->
   <nav class="app-nav">
     <button type="button" class="nav-btn active" id="home-btn">Home</button>
-    <button type="button" class="nav-btn" id="favorites-btn">Favorites</button>
-    <button type="button" class="nav-btn" id="mealplan-btn">Meal Plan</button>
+    <button type="button" class="nav-btn" id="help-btn">Help</button>
   </nav>
 
-  <!-- Main Content -->
   <main class="app-content">
-    <!-- Top Favorites Grid -->
-    <section class="top-favorites">
-      <h2>Top Favorites</h2>
-      <div class="favorites-grid">
-        <!-- Will be populated by JavaScript -->
-        <div class="favorite-recipe">Recipe 1</div>
-        <div class="favorite-recipe">Recipe 2</div>
-        <div class="favorite-recipe">Recipe 3</div>
-        <div class="favorite-recipe">Recipe 4</div>
+    <section class="meals-eaten-today">
+      <h2>Meals Eaten Today</h2>
+      <div class="daily-tracker">
+        <div class="tracker-item">
+          <span class="tracker-label">Protein:</span>
+          <span class="tracker-value" id="protein-total">0g</span>
+        </div>
+        <div class="tracker-item">
+          <span class="tracker-label">Carbs:</span>
+          <span class="tracker-value" id="carbs-total">0g</span>
+        </div>
+        <div class="tracker-item">
+          <span class="tracker-label">Fat:</span>
+          <span class="tracker-value" id="fat-total">0g</span>
+        </div>
+      </div>
+      <div class="meals-grid">
+        <div class="empty-slot">No meals added today</div>
       </div>
     </section>
 
-    <!-- Favorites List -->
     <aside class="favorites-list">
       <h2>All Favorites</h2>
+      <div class="favorites-grid">
+        <div class="favorite-recipe empty-slot"><div>Empty Slot</div></div>
+        <div class="favorite-recipe empty-slot"><div>Empty Slot</div></div>
+        <div class="favorite-recipe empty-slot"><div>Empty Slot</div></div>
+        <div class="favorite-recipe empty-slot"><div>Empty Slot</div></div>
+      </div>
       <ul class="favorites-ul">
         <!-- Will be populated by JavaScript -->
-        <li>Favorite Recipe 1</li>
-        <li>Favorite Recipe 2</li>
-        <li>Favorite Recipe 3</li>
       </ul>
       <div class="favorites-actions">
-        <button type="button" class="add-btn">+ Add Recipe</button>
         <button type="button" class="remove-btn">− Remove Selected</button>
       </div>
     </aside>
+    <section id="recipe-search-bar">
+      <h2>Search Recipes</h2>
+      <form id="recipe-search-form">
+        <input type="text" id="recipe-query" placeholder="Search recipes..." required>
+        <button type="submit">Search</button>
+      </form>
+      <div id="recipe-results" class="recipe-grid"></div>
+      <div id="nutrition-error" style="display: none;"></div>
+    </section>
   </main>
 
   <script src="scripts/main.js"></script>
